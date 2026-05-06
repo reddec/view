@@ -28,6 +28,8 @@ func Load(store fs.FS, view string) (*template.Template, error) {
 func LoadTemplate(root *template.Template, store fs.FS, view string) (*template.Template, error) {
 	dirs := strings.Split(strings.Trim(view, "/"), "/")
 	dirs = dirs[:len(dirs)-1] // last segment is view itself
+	// always check root-level layout first
+	dirs = append([]string{"."}, dirs...)
 	// parse layouts from all dirs starting from the top and until the current dir
 	for i := range dirs {
 		fpath := path.Join(path.Join(dirs[:i+1]...), layoutName)
